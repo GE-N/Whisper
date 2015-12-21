@@ -26,6 +26,14 @@ class ViewController: UIViewController {
     return button
     }()
 
+  lazy var presentWithImageButton: UIButton = { [unowned self] in
+    let button = UIButton()
+    button.addTarget(self, action: "presentAndSilentWithImageButtonDidPress:", forControlEvents: .TouchUpInside)
+    button.setTitle("Present and silent with Images", forState: .Normal)
+    
+    return button
+    }()
+  
   lazy var showButton: UIButton = { [unowned self] in
     let button = UIButton()
     button.addTarget(self, action: "showButtonDidPress:", forControlEvents: .TouchUpInside)
@@ -72,10 +80,11 @@ class ViewController: UIViewController {
     title = "Whisper".uppercaseString
 
     view.addSubview(scrollView)
-    [titleLabel, presentButton, showButton,
+    
+    [titleLabel, presentButton, presentWithImageButton, showButton,
       presentPermanentButton, notificationButton, statusBarButton].forEach { scrollView.addSubview($0) }
 
-    [presentButton, showButton, presentPermanentButton, notificationButton, statusBarButton].forEach {
+    [presentButton, presentWithImageButton, showButton, presentPermanentButton, notificationButton, statusBarButton].forEach {
       $0.setTitleColor(UIColor.grayColor(), forState: .Normal)
       $0.layer.borderColor = UIColor.grayColor().CGColor
       $0.layer.borderWidth = 1.5
@@ -111,6 +120,16 @@ class ViewController: UIViewController {
     Silent(navigationController, after: 3)
   }
 
+  func presentAndSilentWithImageButtonDidPress(button: UIButton) {
+    guard let navigationController = navigationController else { return }
+    
+    var message = Message(title: "This message will silent in 3 seconds.", color: UIColor(red:0.89, green:0.09, blue:0.44, alpha:1))
+    message.images = [UIImage(named: "lightblue-led")!, UIImage(named: "blue-led")!]
+
+    Whisper(message, to: navigationController, action: .Present)
+    Silent(navigationController, after: 3)
+  }
+  
   func showButtonDidPress(button: UIButton) {
     guard let navigationController = navigationController else { return }
 
@@ -152,6 +171,7 @@ class ViewController: UIViewController {
     presentPermanentButton.frame = CGRect(x: 50, y: showButton.frame.maxY + 15, width: totalSize.width - 100, height: 50)
     notificationButton.frame = CGRect(x: 50, y: presentPermanentButton.frame.maxY + 15, width: totalSize.width - 100, height: 50)
     statusBarButton.frame = CGRect(x: 50, y: notificationButton.frame.maxY + 15, width: totalSize.width - 100, height: 50)
+    presentWithImageButton.frame = CGRect(x: 50, y: statusBarButton.frame.maxY + 15, width: totalSize.width - 100, height: 50)
 
     let height = statusBarButton.frame.maxY >= totalSize.height ? statusBarButton.frame.maxY + 35 : totalSize.height
     scrollView.contentSize = CGSize(width: totalSize.width, height: height)
