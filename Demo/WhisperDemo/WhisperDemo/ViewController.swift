@@ -66,6 +66,14 @@ class ViewController: UIViewController {
     return button
     }()
 
+  lazy var onboardButton: UIButton = { [unowned self] in
+    let button = UIButton()
+    button.addTarget(self, action: "onboardButtonDidPress:", forControlEvents: .TouchUpInside)
+    button.setTitle("Onboard", forState: .Normal)
+    
+    return button
+  }()
+  
   lazy var containerView: UIView = {
     let view = UIView()
     view.backgroundColor = UIColor.grayColor()
@@ -82,9 +90,9 @@ class ViewController: UIViewController {
     view.addSubview(scrollView)
     
     [titleLabel, presentButton, presentWithImageButton, showButton,
-      presentPermanentButton, notificationButton, statusBarButton].forEach { scrollView.addSubview($0) }
+      presentPermanentButton, notificationButton, statusBarButton, onboardButton].forEach { scrollView.addSubview($0) }
 
-    [presentButton, presentWithImageButton, showButton, presentPermanentButton, notificationButton, statusBarButton].forEach {
+    [presentButton, presentWithImageButton, showButton, presentPermanentButton, notificationButton, statusBarButton, onboardButton].forEach {
       $0.setTitleColor(UIColor.grayColor(), forState: .Normal)
       $0.layer.borderColor = UIColor.grayColor().CGColor
       $0.layer.borderWidth = 1.5
@@ -123,7 +131,7 @@ class ViewController: UIViewController {
   func presentAndSilentWithImageButtonDidPress(button: UIButton) {
     guard let navigationController = navigationController else { return }
     
-    var message = Message(title: "This message will silent in 3 seconds.", color: UIColor(red:0.89, green:0.09, blue:0.44, alpha:1))
+    var message = Message(title: "This message will silent in 3 seconds. This message will silent in 3 seconds. This message will silent in 3 seconds. This message will silent in 3 seconds. This message will silent in 3 seconds. This message will silent in 3 seconds. This message will silent in 3 seconds.", color: UIColor(red:0.89, green:0.09, blue:0.44, alpha:1))
     message.images = [UIImage(named: "lightblue-led")!, UIImage(named: "blue-led")!]
 
     Whisper(message, to: navigationController, action: .Present)
@@ -159,6 +167,22 @@ class ViewController: UIViewController {
     Whistle(murmur)
   }
 
+  func onboardButtonDidPress(button: UIButton) {
+    var board = Board(text: "Hello, I'm here. I'm board. You know me? Yes, you are.",
+      image: UIImage(named: "star")) { Void in
+        print("tapped on Onboard")
+      }
+    board.setSelectionActions(accept: { () -> Void in
+      print("Accepted")
+      }) { [unowned self] Void in
+        print("Rejected")
+        Clearboard(self)
+    }
+    
+    Onboard(board, to: self)
+//    Clearboard(self, after: 3)
+  }
+  
   // MARK - Configuration
 
   func setupFrames() {
@@ -172,6 +196,7 @@ class ViewController: UIViewController {
     notificationButton.frame = CGRect(x: 50, y: presentPermanentButton.frame.maxY + 15, width: totalSize.width - 100, height: 50)
     statusBarButton.frame = CGRect(x: 50, y: notificationButton.frame.maxY + 15, width: totalSize.width - 100, height: 50)
     presentWithImageButton.frame = CGRect(x: 50, y: statusBarButton.frame.maxY + 15, width: totalSize.width - 100, height: 50)
+    onboardButton.frame = CGRect(x: 50, y: presentWithImageButton.frame.maxY + 15, width: totalSize.width - 100, height: 50)
 
     let height = statusBarButton.frame.maxY >= totalSize.height ? statusBarButton.frame.maxY + 35 : totalSize.height
     scrollView.contentSize = CGSize(width: totalSize.width, height: height)
