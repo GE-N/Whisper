@@ -14,7 +14,7 @@ let screenHeight = CGRectGetHeight(screenBound)
 
 let onboardViewOffset = CGFloat(8)
 let onboardViewHeight = CGFloat(70)
-let onboardImageViewSize = CGSizeMake(25, 25)
+let onboardImageViewSize = CGSizeMake(20, 20)
 let onboardButtonSize = CGSizeMake(44, 44)
 let onboardCloseButtonSize = CGSizeMake(27, 27)
 let onboardCloseButtonFrame = CGRectMake(
@@ -36,6 +36,7 @@ public class OnboardView: UIView {
     label.font = UIFont(name: "HelveticaNeue", size: 13)
     label.frame.size.width = UIScreen.mainScreen().bounds.width - 30
     label.frame.size.height = onboardViewHeight
+
     return label
   }()
   
@@ -125,7 +126,7 @@ public class OnboardView: UIView {
   }
   
   public required init?(coder aDecoder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
+    fatalError("init(coder:) has not been implemented")
   }
 }
 
@@ -138,7 +139,7 @@ extension OnboardView {
     var labelSize = CGSizeMake(screenWidth - (onboardViewOffset * 2), onboardViewHeight - (onboardViewOffset * 2))
     
     if board.image != nil {
-      boardImageView.frame.origin = CGPointMake(onboardViewOffset, onboardViewOffset * 2)
+      boardImageView.frame.origin = CGPointMake(onboardViewOffset, onboardViewOffset)
       boardImageView.frame.size = onboardImageViewSize
       
       let imageWidth = onboardImageViewSize.width + onboardViewOffset
@@ -170,6 +171,9 @@ extension OnboardView {
       labelSize.width -= onboardCloseButtonSize.width + onboardViewOffset
     }
     
+    if let labelHeight = textLabel.text?.heighWithConstrainedWidth(labelSize.width, font: textLabel.font) where labelHeight < onboardViewHeight {
+      labelSize.height = labelHeight
+    }
     textLabel.frame.origin = labelOrigin
     textLabel.frame.size = labelSize
   }

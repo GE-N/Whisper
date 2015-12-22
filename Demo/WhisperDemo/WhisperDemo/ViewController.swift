@@ -168,7 +168,7 @@ class ViewController: UIViewController {
   }
 
   func onboardButtonDidPress(button: UIButton) {
-    var board = Board(text: "Hello, I'm here. I'm board. You know me? Yes, you are.",
+    var board = Board(text: "Hello, I'm here. I'm board. You know me? Yes, you are.Hello, I'm here. I'm board. You know me? Yes, you are.Hello, I'm here. I'm board. You know me? Yes, you are.Hello, I'm here. I'm board. You know me? Yes, you are.",
       image: UIImage(named: "star")) { Void in
         print("tapped on Onboard")
       }
