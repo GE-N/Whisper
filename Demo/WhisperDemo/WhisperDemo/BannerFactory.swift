@@ -40,6 +40,12 @@ class BannerFactory: NSObject {
     bannerView.style = self
     bannerView.delegate = self
     
+    if details.supportSwipeUpForDismiss {
+      let dismissSwipe = UISwipeGestureRecognizer(target: self, action: "dismissView")
+      dismissSwipe.direction = .Up
+      bannerView.addGestureRecognizer(dismissSwipe)
+    }
+    
     presentVC.view.addSubview(bannerView)
     presentView()
   }
