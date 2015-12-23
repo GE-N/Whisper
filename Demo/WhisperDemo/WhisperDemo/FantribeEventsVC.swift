@@ -67,10 +67,9 @@ extension FantribeEventsVC {
     let multilineText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ***** You can swipe up on this banner for dismiss *****"
     var body = BannerBody(type: .Generic(text: multilineText, imageName: "lightblue-led", alignment: .Left))
     body.supportSwipeUpForDismiss = true
+    body.tapAction = { print("tapped on banner") }
     
     Banner(body, to: self)
-    
-    ClearBanner(self, after: 2)
   }
   
   func genericCenterTapped(sender: UIButton) {

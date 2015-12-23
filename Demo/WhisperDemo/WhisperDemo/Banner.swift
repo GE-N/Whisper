@@ -21,6 +21,7 @@ public struct BannerBody {
   
   var color = UIColor(red:0.96, green:0.97, blue:0.97, alpha:1)
   var supportSwipeUpForDismiss = false
+  var tapAction: (() -> Void)?
   
   init(type: BannerType) {
     self.type = type

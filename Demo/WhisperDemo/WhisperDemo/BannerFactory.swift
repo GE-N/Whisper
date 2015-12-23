@@ -30,6 +30,7 @@ class BannerFactory: NSObject {
   var bannerView: BannerView!
   var bannerDetails: BannerBody!
   var presentVC: UIViewController!
+  var tapAction: (() -> Void)? = nil
   
   var delayTimer = NSTimer()
   
@@ -44,6 +45,12 @@ class BannerFactory: NSObject {
       let dismissSwipe = UISwipeGestureRecognizer(target: self, action: "dismissView")
       dismissSwipe.direction = .Up
       bannerView.addGestureRecognizer(dismissSwipe)
+    }
+    
+    if details.tapAction != nil {
+      tapAction = details.tapAction
+      let tapGesture = UITapGestureRecognizer(target: self, action: "performTap")
+      bannerView.addGestureRecognizer(tapGesture)
     }
     
     presentVC.view.addSubview(bannerView)
@@ -78,6 +85,10 @@ class BannerFactory: NSObject {
     }) { success in
       self.bannerView.removeFromSuperview()
     }
+  }
+  
+  func performTap() {
+    tapAction?()
   }
 }
 
