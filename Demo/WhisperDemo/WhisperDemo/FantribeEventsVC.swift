@@ -67,11 +67,15 @@ extension FantribeEventsVC {
     let multilineText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
     let body = BannerBody(type: .Generic(text: multilineText, imageName: "lightblue-led", alignment: .Left))
     Banner(body, to: self)
+    
+    ClearBanner(self, after: 2)
   }
   
   func genericCenterTapped(sender: UIButton) {
     let text = "Connection lost"
-    let body = BannerBody(type: .Generic(text: text, imageName: "lightblue-led", alignment: .Center))
+    let body = BannerBody(type: .Generic(text: text, imageName: nil, alignment: .Center))
     Banner(body, to: self)
+    
+    ClearBanner(self, after: 2)
   }
 }

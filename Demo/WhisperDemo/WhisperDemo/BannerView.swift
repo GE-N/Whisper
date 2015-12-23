@@ -85,9 +85,11 @@ extension BannerView {
     if textLabel.textAlignment == .Center {
       textLabel.sizeToFit()
       textLabel.center = center
-      textLabel.center.x += Dimension.imageSize.width + Dimension.offset
       
-      imageView.frame.origin.x = CGRectGetMinX(textLabel.frame) - Dimension.imageSize.width - Dimension.offset
+      if delegate.bannerImageName() != nil {
+        textLabel.center.x += Dimension.imageSize.width + Dimension.offset
+        imageView.frame.origin.x = CGRectGetMinX(textLabel.frame) - Dimension.imageSize.width - Dimension.offset
+      }
     }
   }
   

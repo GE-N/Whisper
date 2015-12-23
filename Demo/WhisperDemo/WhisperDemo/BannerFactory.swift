@@ -14,6 +14,10 @@ public func Banner(banner: BannerBody, to: UIViewController) {
   bannerFactory.craft(banner, on: to)
 }
 
+public func ClearBanner(viewController: UIViewController, after: NSTimeInterval = 0) {
+  bannerFactory.demolish(viewController, after: after)
+}
+
 class BannerFactory: NSObject {
   struct AnimationTiming {
     static let movement: NSTimeInterval = 0.3
@@ -27,6 +31,8 @@ class BannerFactory: NSObject {
   var bannerDetails: BannerBody!
   var presentVC: UIViewController!
   
+  var delayTimer = NSTimer()
+  
   func craft(details: BannerBody, on vc: UIViewController) {
     bannerView = BannerView()
     bannerDetails = details
@@ -38,6 +44,15 @@ class BannerFactory: NSObject {
     presentView()
   }
   
+  func demolish(viewController: UIViewController, after: NSTimeInterval) {
+    delayTimer.invalidate()
+    delayTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "delayFired:", userInfo: nil, repeats: false)
+  }
+  
+  func delayFired(timer: NSTimer) {
+    dismissView()
+  }
+  
   func presentView() {
     guard presentVC.navigationController != nil else {
       print("Banner: Can not found UINavigationController instance on \(presentVC)")
@@ -46,6 +61,16 @@ class BannerFactory: NSObject {
     
     UIView.animateWithDuration(AnimationTiming.movement) { [unowned self] in
       self.bannerView.frame.origin.y = 64
+    }
+  }
+  
+  func dismissView() {
+    guard bannerView != nil else { return }
+    
+    UIView.animateWithDuration(AnimationTiming.movement, animations: { [unowned self] in
+      self.bannerView.frame.origin.y = -CGRectGetHeight(self.bannerView.frame)
+    }) { success in
+      self.bannerView.removeFromSuperview()
     }
   }
 }
