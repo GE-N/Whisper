@@ -12,6 +12,10 @@
 		29AD42A01BBC2BD2004292F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AD429F1BBC2BD2004292F1 /* ViewController.swift */; };
 		29AD42A51BBC2BD2004292F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29AD42A41BBC2BD2004292F1 /* Assets.xcassets */; };
 		29AD42A81BBC2BD2004292F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29AD42A61BBC2BD2004292F1 /* LaunchScreen.storyboard */; };
+		524FB3301C2A578E005C0CA8 /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524FB32F1C2A578E005C0CA8 /* Banner.swift */; };
+		524FB3321C2A58E5005C0CA8 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524FB3311C2A58E5005C0CA8 /* BannerView.swift */; };
+		524FB3341C2A58F0005C0CA8 /* BannerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524FB3331C2A58F0005C0CA8 /* BannerFactory.swift */; };
+		524FB3361C2A6885005C0CA8 /* FantribeEventsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524FB3351C2A6885005C0CA8 /* FantribeEventsVC.swift */; };
 		525109871C29612200065BEA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525109861C29612200065BEA /* String+Extension.swift */; };
 		528FA13D1C280FA5005EF0AE /* Onboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FA13C1C280FA5005EF0AE /* Onboard.swift */; };
 		528FA13F1C281AD6005EF0AE /* OnboardFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528FA13E1C281AD6005EF0AE /* OnboardFactory.swift */; };
@@ -40,6 +44,10 @@
 		29AD42A71BBC2BD2004292F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		29AD42A91BBC2BD2004292F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		388682239575B0B26D39FB8E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		524FB32F1C2A578E005C0CA8 /* Banner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
+		524FB3311C2A58E5005C0CA8 /* BannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
+		524FB3331C2A58F0005C0CA8 /* BannerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerFactory.swift; sourceTree = "<group>"; };
+		524FB3351C2A6885005C0CA8 /* FantribeEventsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FantribeEventsVC.swift; sourceTree = "<group>"; };
 		525109861C29612200065BEA /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		528FA13C1C280FA5005EF0AE /* Onboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Onboard.swift; sourceTree = "<group>"; };
 		528FA13E1C281AD6005EF0AE /* OnboardFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardFactory.swift; sourceTree = "<group>"; };
@@ -109,9 +117,13 @@
 			children = (
 				29AD429D1BBC2BD2004292F1 /* AppDelegate.swift */,
 				29AD429F1BBC2BD2004292F1 /* ViewController.swift */,
+				524FB3351C2A6885005C0CA8 /* FantribeEventsVC.swift */,
 				528FA13C1C280FA5005EF0AE /* Onboard.swift */,
 				528FA13E1C281AD6005EF0AE /* OnboardFactory.swift */,
 				528FA1401C281DFD005EF0AE /* OnboardView.swift */,
+				524FB32F1C2A578E005C0CA8 /* Banner.swift */,
+				524FB3311C2A58E5005C0CA8 /* BannerView.swift */,
+				524FB3331C2A58F0005C0CA8 /* BannerFactory.swift */,
 				525109861C29612200065BEA /* String+Extension.swift */,
 				29AD42A41BBC2BD2004292F1 /* Assets.xcassets */,
 				29AD42A61BBC2BD2004292F1 /* LaunchScreen.storyboard */,
@@ -288,11 +300,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				524FB3341C2A58F0005C0CA8 /* BannerFactory.swift in Sources */,
 				528FA13F1C281AD6005EF0AE /* OnboardFactory.swift in Sources */,
 				528FA1411C281DFD005EF0AE /* OnboardView.swift in Sources */,
 				528FA13D1C280FA5005EF0AE /* Onboard.swift in Sources */,
 				29AD42A01BBC2BD2004292F1 /* ViewController.swift in Sources */,
+				524FB3321C2A58E5005C0CA8 /* BannerView.swift in Sources */,
+				524FB3301C2A578E005C0CA8 /* Banner.swift in Sources */,
 				525109871C29612200065BEA /* String+Extension.swift in Sources */,
+				524FB3361C2A6885005C0CA8 /* FantribeEventsVC.swift in Sources */,
 				29AD429E1BBC2BD2004292F1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

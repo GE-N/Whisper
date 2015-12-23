@@ -1,0 +1,36 @@
+//
+//  Banner.swift
+//  WhisperDemo
+//
+//  Created by Jerapong Nampetch on 12/23/2558 BE.
+//  Copyright © 2558 Ramon Gilabert Llop. All rights reserved.
+//
+
+import UIKit
+
+enum BannerType {
+  case Generic(text: String, imageName: String?, alignment: NSTextAlignment?)
+  case Update
+}
+
+public struct BannerBody {
+  let type: BannerType!
+  let text: String!
+  var textAlignment: NSTextAlignment? = .Left
+  var imageName: String? = nil
+  
+  var color = UIColor(red:0.96, green:0.97, blue:0.97, alpha:1)
+  
+  init(type: BannerType) {
+    self.type = type
+    
+    switch type {
+    case .Generic(let bannerText, let imgName, let alignment):
+      text = bannerText
+      imageName = imgName
+      textAlignment = alignment
+    case .Update:
+      self.text = ""
+    }
+  }
+}
