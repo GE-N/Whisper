@@ -12,6 +12,7 @@ public class BannerPointView : UIView, BannerDelegate {
   struct Dimension {
     static let offset: CGFloat = 8
     static let width: CGFloat = screenWidth
+    static let imageSize = CGSizeMake(16, 16)
   }
   
   let numberFormatter: NSNumberFormatter = {
@@ -19,6 +20,11 @@ public class BannerPointView : UIView, BannerDelegate {
     formatter.numberStyle = .DecimalStyle
     
     return formatter
+  }()
+  
+  public lazy var imageView: UIImageView = {
+    let imageView = UIImageView()
+    return imageView
   }()
   
   public lazy var textLabel: UICountingLabel = {
@@ -30,7 +36,6 @@ public class BannerPointView : UIView, BannerDelegate {
       formatter.numberStyle = .DecimalStyle
       return formatter.stringFromNumber(Int(value))
     }
-    
     return label
   }()
   
@@ -63,7 +68,7 @@ public class BannerPointView : UIView, BannerDelegate {
     points = point
     addition = add
     
-    textLabel.text    = "\(point)"
+    textLabel.countFrom(CGFloat(point), to: CGFloat(point), withDuration: 0)
     detailsLabel.text = "\(add) : \(details)"
   }
 
@@ -74,6 +79,18 @@ public class BannerPointView : UIView, BannerDelegate {
     detailsLabel.frame.origin.y = Dimension.offset
     
     textLabel.frame.size.width = screenWidth - CGRectGetMinX(detailsLabel.frame) - (Dimension.offset * 2)
+    
+    if let imageName = delegate.bannerImageName() {
+      addSubview(imageView)
+      imageView.frame.origin = CGPointMake(Dimension.offset, Dimension.offset)
+      imageView.frame.size = Dimension.imageSize
+      imageView.image = UIImage(named: imageName)
+      
+      let widthForImageView = Dimension.imageSize.width + Dimension.offset
+      textLabel.frame.origin.x += widthForImageView
+      textLabel.frame.size.width -= widthForImageView
+    }
+    
     frame = delegate.onViewController().view.frame
     frame.size.height = CGRectGetHeight(textLabel.frame) + (Dimension.offset * 2)
   }
