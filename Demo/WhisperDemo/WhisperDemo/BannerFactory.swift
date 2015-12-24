@@ -40,6 +40,13 @@ class BannerFactory: NSObject {
   var delayTimer = NSTimer()
   
   func craft(details: BannerBody, on vc: UIViewController) {
+    var delay: NSTimeInterval = 0
+    if let showingBanner = bannerIn(vc) {
+      bannerView = showingBanner
+      delay = AnimationTiming.movement
+      dismissView()
+    }
+    
     switch details.type {
     case .Generic: bannerView = BannerView()
     case .Update(let point, let add, let text): bannerView = BannerPointView(point: point, add: add, details: text)
@@ -63,12 +70,13 @@ class BannerFactory: NSObject {
         view.addGestureRecognizer(tapGesture)
       }
       
+      view.frame.origin.y = -CGRectGetHeight(view.frame)
       presentVC.view.addSubview(view)
-      presentView()
+      gcdDelay(delay) { [unowned self] in self.presentView() }
     }
   }
   
-  func demolish(viewController: UIViewController, after: NSTimeInterval) {
+  func demolish(viewController: UIViewController, after: NSTimeInterval = 0) {
     delayTimer.invalidate()
     delayTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "delayFired:", userInfo: nil, repeats: false)
   }
@@ -106,6 +114,15 @@ class BannerFactory: NSObject {
   
   func performTap() {
     tapAction?()
+  }
+  
+  private func bannerIn(vc: UIViewController) -> BannerDelegate? {
+    for view in vc.view.subviews {
+      if let banner = view as? BannerDelegate {
+        return banner
+      }
+    }
+    return nil
   }
 }
 
