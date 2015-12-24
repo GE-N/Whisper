@@ -14,10 +14,22 @@ public class BannerPointView : UIView, BannerDelegate {
     static let width: CGFloat = screenWidth
   }
   
+  let numberFormatter: NSNumberFormatter = {
+    let formatter = NSNumberFormatter()
+    formatter.numberStyle = .DecimalStyle
+    
+    return formatter
+  }()
+  
   public lazy var textLabel: UICountingLabel = {
     let label = UICountingLabel()
     label.numberOfLines = 1
-    label.format = "%d"
+    label.method = .EaseOut
+    label.formatBlock = { value in
+      let formatter = NSNumberFormatter()
+      formatter.numberStyle = .DecimalStyle
+      return formatter.stringFromNumber(Int(value))
+    }
     
     return label
   }()
@@ -29,6 +41,7 @@ public class BannerPointView : UIView, BannerDelegate {
   }()
   
   let bannerFont = UIFont.systemFontOfSize(13)
+  
   
   lazy private(set) var transformViews: [UIView] = [self.textLabel, self.detailsLabel]
   
@@ -75,7 +88,9 @@ public class BannerPointView : UIView, BannerDelegate {
   }
   
   func beginAnimation() {
-    textLabel.countFrom(CGFloat(points), to: CGFloat(points+addition), withDuration: 1)
+    gcdDelay(0.5){ [unowned self] in
+      self.textLabel.countFrom(CGFloat(self.points), to: CGFloat(self.points + self.addition), withDuration: 1)
+    }
   }
   
   required public init?(coder aDecoder: NSCoder) {

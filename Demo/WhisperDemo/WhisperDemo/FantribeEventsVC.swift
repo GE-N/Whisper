@@ -100,6 +100,6 @@ extension FantribeEventsVC {
     let body = BannerBody(type: type)
     
     Banner(body, to: self)
-    ClearBanner(self, after: 2)
+    ClearBanner(self, after: 3)
   }
 }
