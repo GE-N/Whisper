@@ -61,17 +61,21 @@ public class BannerPointView : UIView, BannerDelegate {
     didSet { setupStyle() }
   }
   
-  init(point: Int16, add: Int16, details: String) {
+  init(point: Int16, adder: Int16, details: String) {
     super.init(frame: CGRectZero)
     transformViews.forEach { addSubview($0) }
     
     points = point
-    addition = add
+    addition = adder
     
     textLabel.countFrom(CGFloat(point), to: CGFloat(point), withDuration: 0)
-    detailsLabel.text = "\(add) : \(details)"
+    detailsLabel.text = "\(adderWithSigned(adder)) : \(details)"
   }
 
+  private func adderWithSigned(adder: Int16) -> String {
+    return adder >= 0 ? "+\(adder)" : "\(adder)"
+  }
+  
   func setupFrame() {
     transformViews.forEach { initiateLabel($0 as! UILabel) }
     textLabel.frame.origin = CGPointMake(Dimension.offset, Dimension.offset)

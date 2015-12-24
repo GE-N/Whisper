@@ -96,7 +96,7 @@ extension FantribeEventsVC {
   }
   
   func tokenUpdateTapped(sender: UIButton) {
-    let type = BannerType.Update(point: 13000, add: 1000, text: "Profile updated.")
+    let type = BannerType.Update(point: 13000, add: -1000, text: "Profile updated.")
     let body = BannerBody(type: type)
     
     Banner(body, to: self)
