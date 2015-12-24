@@ -79,7 +79,7 @@ public class BannerPointView : UIView, BannerDelegate {
   }
   
   func setupStyle() {
-    
+    backgroundColor = style?.backgroundColor()
   }
   
   private func initiateLabel(label: UILabel) {
