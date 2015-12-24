@@ -19,7 +19,7 @@ protocol BannerViewStyle {
   func backgroundColor() -> UIColor
 }
 
-public class BannerView : UIView {
+public class BannerView : UIView, BannerDelegate {
   struct Dimension {
     static let offset: CGFloat = 8
     static let imageSize = CGSizeMake(12, 12)

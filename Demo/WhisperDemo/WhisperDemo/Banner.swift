@@ -10,11 +10,11 @@ import UIKit
 
 enum BannerType {
   case Generic(text: String, imageName: String?, alignment: NSTextAlignment?)
-  case Update
+  case Update(point: Int16, add: Int16, text: String)
 }
 
 public struct BannerBody {
-  let type: BannerType!
+  let type: BannerType
   let text: String!
   var textAlignment: NSTextAlignment? = .Left
   var imageName: String? = nil
@@ -31,8 +31,9 @@ public struct BannerBody {
       text = bannerText
       imageName = imgName
       textAlignment = alignment
-    case .Update:
-      self.text = ""
+    case .Update(let point, _, _):
+      text = "\(point)"
+      imageName = "token"
     }
   }
 }

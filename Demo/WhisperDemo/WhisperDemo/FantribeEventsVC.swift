@@ -31,6 +31,17 @@ class FantribeEventsVC : UIViewController {
     return button
   }()
   
+  lazy var tokenUpdateButton: UIButton = {
+    let button = UIButton()
+    button.setTitle("Token update", forState: .Normal)
+    button.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+    button.layer.borderColor = UIColor.grayColor().CGColor
+    button.layer.borderWidth = 1
+    button.backgroundColor = UIColor.lightGrayColor()
+    
+    return button
+  }()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -42,6 +53,9 @@ class FantribeEventsVC : UIViewController {
     
     view.addSubview(genericCenter)
     genericCenter.addTarget(self, action: "genericCenterTapped:", forControlEvents: .TouchUpInside)
+    
+    view.addSubview(tokenUpdateButton)
+    tokenUpdateButton.addTarget(self, action: "tokenUpdateTapped:", forControlEvents: .TouchUpInside)
     
     setLayout()
   }
@@ -57,6 +71,7 @@ class FantribeEventsVC : UIViewController {
     let buttonWidth: CGFloat = CGRectGetWidth(view.frame) - (offset * 2)
     genericBannerButton.frame = CGRectMake(offset, 150, buttonWidth, buttonHeight)
     genericCenter.frame = CGRectMake(offset, yPosNextTo(genericBannerButton), buttonWidth, buttonHeight)
+    tokenUpdateButton.frame = CGRectMake(offset, yPosNextTo(genericCenter), buttonWidth, buttonHeight)
   }
 }
 
@@ -77,6 +92,14 @@ extension FantribeEventsVC {
     let body = BannerBody(type: .Generic(text: text, imageName: nil, alignment: .Center))
     Banner(body, to: self)
     
+    ClearBanner(self, after: 2)
+  }
+  
+  func tokenUpdateTapped(sender: UIButton) {
+    let type = BannerType.Update(point: 13000, add: 1000, text: "Profile updated.")
+    let body = BannerBody(type: type)
+    
+    Banner(body, to: self)
     ClearBanner(self, after: 2)
   }
 }

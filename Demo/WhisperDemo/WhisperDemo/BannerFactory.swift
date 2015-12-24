@@ -18,6 +18,11 @@ public func ClearBanner(viewController: UIViewController, after: NSTimeInterval 
   bannerFactory.demolish(viewController, after: after)
 }
 
+protocol BannerDelegate {
+  var delegate: BannerViewDelegate! { get set }
+  var style: BannerViewStyle? { get set }
+}
+
 class BannerFactory: NSObject {
   struct AnimationTiming {
     static let movement: NSTimeInterval = 0.3
@@ -27,7 +32,7 @@ class BannerFactory: NSObject {
     static let totalDelay: NSTimeInterval = popUp + movement * 2
   }
   
-  var bannerView: BannerView!
+  var bannerView: BannerDelegate!
   var bannerDetails: BannerBody!
   var presentVC: UIViewController!
   var tapAction: (() -> Void)? = nil
@@ -35,26 +40,32 @@ class BannerFactory: NSObject {
   var delayTimer = NSTimer()
   
   func craft(details: BannerBody, on vc: UIViewController) {
-    bannerView = BannerView()
+    switch details.type {
+    case .Generic: bannerView = BannerView()
+    case .Update(let point, let add, let text): bannerView = BannerPointView(point: point, add: add, details: text)
+    }
+    
     bannerDetails = details
     presentVC = vc
     bannerView.style = self
     bannerView.delegate = self
     
-    if details.supportSwipeUpForDismiss {
-      let dismissSwipe = UISwipeGestureRecognizer(target: self, action: "dismissView")
-      dismissSwipe.direction = .Up
-      bannerView.addGestureRecognizer(dismissSwipe)
+    if let view = bannerView as? UIView {
+      if details.supportSwipeUpForDismiss {
+        let dismissSwipe = UISwipeGestureRecognizer(target: self, action: "dismissView")
+        dismissSwipe.direction = .Up
+        view.addGestureRecognizer(dismissSwipe)
+      }
+      
+      if details.tapAction != nil {
+        tapAction = details.tapAction
+        let tapGesture = UITapGestureRecognizer(target: self, action: "performTap")
+        view.addGestureRecognizer(tapGesture)
+      }
+      
+      presentVC.view.addSubview(view)
+      presentView()
     }
-    
-    if details.tapAction != nil {
-      tapAction = details.tapAction
-      let tapGesture = UITapGestureRecognizer(target: self, action: "performTap")
-      bannerView.addGestureRecognizer(tapGesture)
-    }
-    
-    presentVC.view.addSubview(bannerView)
-    presentView()
   }
   
   func demolish(viewController: UIViewController, after: NSTimeInterval) {
@@ -72,18 +83,24 @@ class BannerFactory: NSObject {
       return
     }
     
-    UIView.animateWithDuration(AnimationTiming.movement) { [unowned self] in
-      self.bannerView.frame.origin.y = 64
+    if let view = bannerView as? UIView {
+      UIView.animateWithDuration(AnimationTiming.movement, animations: { () -> Void in
+        view.frame.origin.y = 64
+      }) { (success) -> Void in
+        if view.respondsToSelector("beginAnimation") && success == true { view.performSelector("beginAnimation") }
+      }
     }
   }
   
   func dismissView() {
     guard bannerView != nil else { return }
     
-    UIView.animateWithDuration(AnimationTiming.movement, animations: { [unowned self] in
-      self.bannerView.frame.origin.y = -CGRectGetHeight(self.bannerView.frame)
-    }) { success in
-      self.bannerView.removeFromSuperview()
+    if let view = bannerView as? UIView {
+      UIView.animateWithDuration(AnimationTiming.movement, animations: {
+        view.frame.origin.y = -CGRectGetHeight(view.frame)
+        }) { success in
+          view.removeFromSuperview()
+      }
     }
   }
   
